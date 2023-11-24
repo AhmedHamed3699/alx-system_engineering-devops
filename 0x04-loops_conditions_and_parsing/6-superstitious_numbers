@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+# This script is for diplaying different bad lucks
+
+i=1
+
+while [ $i -le 20 ]; do
+  printf "%s\n" $i
+  case $i in
+    4) printf "bad luck from China\n";;
+    9) printf "bad luck from Japan\n";;
+    17) printf "bad luck from Italy\n";;
+  esac
+  (( i++ ))
+done

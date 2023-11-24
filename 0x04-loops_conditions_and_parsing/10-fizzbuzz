@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+# This script is for implementing FizzBuzz
+
+for i in {1..100}; do
+  if [ $((i % 3)) -ne 0 ] && [ $((i % 5)) -ne 0 ]; then
+    printf "%i" "$i"
+  fi
+  if [ $((i % 3)) -eq 0 ]; then
+    printf "Fizz"
+  fi
+  if [ $((i % 5)) -eq 0 ]; then
+    printf "Buzz"
+  fi
+  printf "\n"
+done
