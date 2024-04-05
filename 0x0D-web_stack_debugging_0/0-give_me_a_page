@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+# The problem was because apache server was not running
+service apache2 start
