@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+# Install Nginx on server & create a redirect
+
+apt update
+apt -y install nginx
+ufw allow 'Nginx HTTP'
+echo "Hello World!" > /var/www/html/index.html
+echo "server {
+	listen 80 default_server;
+	listen [::]:80 default_server;
+
+	root /var/www/html;
+	index index.html;
+
+  location /redirect_me {
+    return 301 https://www.youtube.com/watch?v=dQw4w9WgXcQ
+  }
+}" > /etc/nginx/sites-available/default
+service nginx restart
