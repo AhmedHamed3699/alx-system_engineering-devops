@@ -4,15 +4,25 @@
 apt update
 apt -y install nginx
 echo "Hello World!" > /var/www/html/index.html
+printf "Ceci n'est pas une page\n" > /var/www/html/not_found.html
 echo "server {
-	listen 80 default_server;
-	listen [::]:80 default_server;
+    listen 80 default_server;
+    listen [::]:80 default_server;
 
-	root /var/www/html;
-	index index.html;
+    root /var/www/html;
 
-  location /redirect_me {
-    return 301 https://www.youtube.com/watch?v=dQw4w9WgXcQ
-  }
+    index index.html index.htm index.nginx-debian.html;
+
+    server_name _;
+
+    location /redirect_me {
+            return 301 https://www.youtube.com/watch?v=dQw4w9WgXcQ;
+    }
+
+    error_page 404 /not_found.html;
+
+    location / {
+            try_files \$uri \$uri/ =404;
+    }
 }" > /etc/nginx/sites-available/default
 service nginx restart
