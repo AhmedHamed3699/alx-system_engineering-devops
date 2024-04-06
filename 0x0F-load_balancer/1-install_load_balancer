@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+# Configure Nginx so that its HTTP response contains a custom header
+# to tell who is the hostname
+
+apt update
+apt -y install haproxy
+echo "
+frontend http-in
+        bind *:80
+        default_backend webservers
+
+backend webservers
+        balance roundrobin
+        server web-01 18.209.179.93:80 check
+        server web-02 54.160.77.197:80 check
+" >> /etc/haproxy/haproxy.cfg
+service haproxy restart
