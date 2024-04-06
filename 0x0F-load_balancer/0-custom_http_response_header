@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+# Configure Nginx so that its HTTP response contains a custom header
+# to tell who is the hostname
+apt update
+apt -y install nginx
+echo "server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+
+    root /var/www/html;
+
+    index index.html index.htm index.nginx-debian.html;
+
+    server_name _;
+
+    add_header X-Served-By \$hostname;
+
+    location /redirect_me {
+            return 301 https://www.youtube.com/watch?v=dQw4w9WgXcQ;
+    }
+
+    error_page 404 /not_found.html;
+
+    location / {
+            try_files \$uri \$uri/ =404;
+    }
+}" > /etc/nginx/sites-available/default
+service nginx restart
