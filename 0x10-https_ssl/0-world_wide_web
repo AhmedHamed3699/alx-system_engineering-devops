@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+# Print domain configuration
+get_info() {
+  local domain="$1"
+  local sub="$2"
+  local info
+  info=$(dig "$sub"."$domain" | grep -A1 'ANSWER SECTION:')
+  info=$(echo "$info" | awk 'NR>1')
+  record_type=$(echo "$info" | awk '{print $4}')
+  ip_address=$(echo "$info" | awk '{print $5}')
+
+  echo "The subdomain $sub is a $record_type record and points to $ip_address"
+}
+
+if [ "$#" -eq 2 ]; then
+  get_info "$1" "$2"
+else
+  get_info "$1" "www"
+  get_info "$1" "lb-01"
+  get_info "$1" "web-01"
+  get_info "$1" "web-02"
+fi
